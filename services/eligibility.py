@@ -217,7 +217,7 @@ def scheme_text(scheme):
 def purpose_category(purpose):
     purpose = norm(purpose)
 
-    if purpose in ("education", "scholarship", "financial assistance"):
+    if any(word in purpose for word in ("education", "scholarship", "financial assistance")):
         return "education"
 
     if "business" in purpose:
@@ -242,8 +242,6 @@ def purpose_category(purpose):
         return "skill"
 
     return "other"
-
-
 def purpose_score(scheme, category):
     text = scheme_text(scheme)
 
@@ -292,7 +290,7 @@ def unsuitable_for_undergraduate_scholarship(scheme):
 
 
 def build_result(scheme, score, reasons, warnings):
-    official_url = clean(scheme.get("official_url")) or clean(scheme.get("apply_url"))
+    official_url = clean(scheme.get("official_url"))
 
     return {
         "scheme_name": clean(scheme.get("name")) or "Unnamed Scheme",
